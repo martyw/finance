@@ -1,0 +1,9 @@
+dealer_or_broker_id,price,quantity,side,type
+AA,99,5,bid,limit
+CC,99,5,bid,limit
+BB,98,5,bid,limit
+DD,97,5,bid,limit
+AA,101,5,ask,limit
+CC,101,5,ask,limit
+DD,101,5,ask,limit
+BB,103,5,ask,limit

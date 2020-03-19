@@ -1,0 +1,10 @@
+dealer_or_broker_id,price,quantity,side,type
+AB,1.00,15000,bid,limit
+AB,1.00,15000,bid,limit
+CD,0.99,5000,bid,limit
+EF,0.98,3000,bid,limit
+ABC,0.97,12000,bid,limit
+JF,1.02,31000,ask,limit
+ML,1.04,5000,ask,limit
+SC,1.05,2000,ask,limit
+HS,1.09,2000,ask,limit
