@@ -19,7 +19,7 @@ Features
 Requirements
 ============
 
-Code is tested with Python 3.7. Needed modules not part of the sytandard release are
+Code is tested with Python 3.7. Needed modules not part of the standard release are
 - sortedcontainers
 - numpy
 - scipy
