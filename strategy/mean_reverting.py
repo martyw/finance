@@ -4,7 +4,7 @@ based on the Strategy class
 """
 import logging
 import pandas as pd
-from strategy.strategy import Strategy
+from strategy import Strategy
 from constants import DEFAULT_QUANTITY, INCREMENT, DUMMY_CPTY, OUR_CPTY
 from position_keeping.long_short import LongShort
 from market.quote import Quote, asdict

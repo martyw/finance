@@ -53,7 +53,7 @@ Main module for bond pricing is `securities/bond.py`.
 Algo Trading
 ------------
 
-Main module is `back_test_strategy.py`, this module illustrates how a mean reverting algo works based on a year of historical closings for an example stock.
+Main module is `strategy/back_test_strategy.py`, this module illustrates how a mean reverting algo works based on a year of historical closings for an example stock.
 
 Term structures
 ---------------

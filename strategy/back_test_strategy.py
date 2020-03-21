@@ -6,9 +6,9 @@ import logging
 from datetime import datetime
 import pandas as pd
 
-from strategy.mean_reverting import MeanRevertingStrategy
+from mean_reverting import MeanRevertingStrategy
 from market_data_source import MarketDataSource
-from strategy.strategy_executor import Executor
+from strategy_executor import Executor
 from constants import DEFAULT_SERVICE, TEST_MODE
 
 
