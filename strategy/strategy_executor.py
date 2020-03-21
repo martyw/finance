@@ -10,16 +10,30 @@ from position_keeping.position import Position
 from position_keeping.trade import Trade
 from orderbook.matching_engine import MatchingEngine
 from constants import DEFAULT_SERVICE
+from strategy import Strategy
+
 
 class Executor:
+    """
+    This class executes a strategy by calling method market_data_tick
+    The strategy has to be set by calling the setter
+    """
     def __init__(self, symbol: str, data_source: str = DEFAULT_SERVICE):
         self.symbol = symbol
         self.market_data_source = data_source
-        self.strategy = None
+        self._strategy = None
         self.matching_engine = MatchingEngine()
         self.positions = dict()
         self.current_prices = None
         self.pnl = pd.DataFrame(columns = ["Realized PnL", "Unrealized PnL"])
+
+    @property
+    def strategy(self):
+        return self._strategy
+
+    @strategy.setter
+    def strategy(self, strategy: Strategy):
+        self._strategy = strategy
 
     def get_timestamp(self) -> datetime:
         return self.current_prices.get_timestamp(self.symbol)
