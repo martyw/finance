@@ -33,8 +33,7 @@ class BackTester:
         self.matching_engine = MatchingEngine()
         self.positions = dict()
         self.current_prices = None
-        self.realized_pnl = pd.DataFrame()
-        self.unrealized_pnl = pd.DataFrame()
+        self.pnl = pd.DataFrame(columns = ["Realized PnL", "Unrealized PnL"])
 
     def get_timestamp(self) -> datetime:
         return self.current_prices.get_timestamp(self.symbol)
@@ -51,11 +50,8 @@ class BackTester:
         return position
 
     def update_pnl(self, position: Position):
-        self.realized_pnl.loc[self.get_timestamp(), "rpnl"] = \
-            position.realized_pnl
-        self.unrealized_pnl.loc[self.get_timestamp(), "upnl"] = \
-            position.unrealized_pnl
-
+        self.pnl.loc[self.get_timestamp()] = [position.realized_pnl,
+                                              position.unrealized_pnl]
         logging.info("{}, {}".format(self.get_trade_date(), position))
 
     def get_position(self) -> Position:
@@ -112,7 +108,10 @@ if __name__ == "__main__":
 
     import matplotlib.pyplot as plt
 
-    dates = [pd.to_datetime(x) for x in back_test.realized_pnl.index.values.tolist()]
-    plt.plot(dates, back_test.realized_pnl)
-    plt.plot(dates, back_test.unrealized_pnl)
+    dates = [pd.to_datetime(x) for x in back_test.pnl.index.values.tolist()]
+    plt.plot(dates, back_test.pnl["Realized PnL"])
+    plt.plot(dates, back_test.pnl["Unrealized PnL"])
+    plt.legend(list(back_test.pnl.columns) )
+    plt.xlabel("time")
+    plt.ylabel("Profit and Loss")
     plt.show()
