@@ -16,7 +16,7 @@ class Surface:
         return float(self.interp(x, y))
 
 
-class TestThis(unittest.TestCase):
+class TestSurface(unittest.TestCase):
     def test_curve(self):
         expiries = [date(2006, 2, 11),
                     date(2006, 4, 11),

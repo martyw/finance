@@ -36,7 +36,7 @@ class ForwardRates(Curve):
         return forward_rate
 
 
-class TestBootstrap(unittest.TestCase):
+class TestForwardCurve(unittest.TestCase):
     """test forward rate calculation"""
     def setUp(self):
         """initialize the test curve"""

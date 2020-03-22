@@ -12,17 +12,19 @@ class MarketData:
     def add_last_price(self, time, symbol, price, volume):
         logging.debug("add last {0}, {1} - {2}/{3}".format(time, symbol,
                                                            price, volume))
-        tick_data = TickData(symbol, price, volume, time)
+        tick_data = TickData(symbol=symbol, last_price=price,
+                             total_volume=volume, timestamp=time)
         self.__recent_ticks__[symbol] = tick_data
 
     def add_open_price(self, time, symbol, price):
         logging.debug("add open {0}, {1} - {2}".format(time, symbol, price))
         tick_data = self.get_existing_tick_data(symbol)
         tick_data.open_price = price
+        self.__recent_ticks__[symbol] = tick_data
 
     def get_existing_tick_data(self, symbol) -> TickData:
         if symbol not in self.__recent_ticks__:
-            self.__recent_ticks__[symbol] = TickData(symbol)
+            self.__recent_ticks__[symbol] = TickData(symbol=symbol)
 
         return self.__recent_ticks__[symbol]
 
@@ -45,24 +47,34 @@ class TestMarketData(unittest.TestCase):
     """
     def setUp(self) -> None:
         self.md = MarketData()
+        self.symbol = "TEST"
         self.timestamp = datetime.now()
         self.last = 3.1415926
+        self.open = 2.71828
+        self.volume = 123456
 
-    def test_last(self):
+    def test_data(self):
         """test last, timestamp"""
-        t = self.md.get_existing_tick_data("TEST")
-        self.assertEqual(0.0, t.last_price)
+        last_tick = self.md.get_existing_tick_data(self.symbol)
+        self.assertEqual(0.0, last_tick.last_price)
+        self.assertEqual(0.0, last_tick.open_price)
+        self.assertEqual(0, last_tick.total_volume)
 
-        self.md.add_last_price(self.timestamp, "TEST", self.last, 123456)
-        t = self.md.get_existing_tick_data("TEST")
-        self.assertEqual(self.last, t.last_price)
-        self.assertEqual(self.timestamp, t.timestamp)
+        self.md.add_last_price(self.timestamp, self.symbol, self.last, 123456)
+        last_tick = self.md.get_existing_tick_data(self.symbol)
+        self.assertEqual(self.last, last_tick.last_price)
+        self.assertEqual(0.0, last_tick.open_price)
+        self.assertEqual(self.timestamp, last_tick.timestamp)
 
-    def test_open(self):
-        """test open price"""
-        self.md.add_open_price(self.timestamp, "TEST", self.last)
-        open = self.md.get_open_price("TEST")
-        self.assertEqual(self.last, open)
+        self.md.add_open_price(self.timestamp, self.symbol, self.open)
+
+        open = self.md.get_open_price(self.symbol)
+        self.assertEqual(open, self.open)
+        last = self.md.get_last_price(self.symbol)
+        self.assertEqual(last, self.last)
+        time = self.md.get_timestamp(self.symbol)
+        self.assertEqual(time, self.timestamp)
+
 
 
 if __name__ == '__main__':

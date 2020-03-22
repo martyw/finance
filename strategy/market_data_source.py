@@ -33,6 +33,11 @@ class MarketDataSource:
 
 
 if __name__ == "__main__":
+    import logging
+
+    logging.basicConfig(format='%(levelname)s:%(message)s',
+                        level=logging.DEBUG)
+
     mds = MarketDataSource("AAPL",
                            "yahoo",
                            datetime.datetime(2014, 1, 1),

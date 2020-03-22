@@ -7,6 +7,7 @@ from dataclasses import dataclass
 class TickData:
     symbol: str
     last_price: float = 0.0
+    open_price: float = 0.0
     total_volume: int = 0
     timestamp: datetime = datetime.utcnow()
 

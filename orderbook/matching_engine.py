@@ -10,6 +10,7 @@ fill a replacement order is added to the book. trades are returned
 import logging
 import unittest
 import csv
+import os
 from sortedcontainers import SortedList
 from market.side import Side
 from position_keeping.trade import Trade
@@ -144,9 +145,10 @@ class TestAlgoSim(unittest.TestCase):
     def setUp(self):
         """set up of orderbook as found in input.csv
         """
+        script_dir = os.path.dirname(__file__)
         logging.debug('**** TestAlgoSim:setUp')
         self.order_book = MatchingEngine()
-        with open('orders_test1.txt') as csvfile:
+        with open(os.path.join(script_dir, 'orders_test1.txt')) as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 self.order_book.match_order(row)
@@ -218,7 +220,8 @@ class TestExample(unittest.TestCase):
     def setUp(self):
         logging.debug('**** TestExample:setUp')
         self.order_book = MatchingEngine()
-        with open('orders_test2.txt') as csvfile:
+        script_dir = os.path.dirname(__file__)
+        with open(os.path.join(script_dir, 'orders_test2.txt')) as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 self.order_book.match_order(row)

@@ -45,7 +45,7 @@ class Curve:
         return float(self.loglinear_interpolate(time_arg))
 
 
-class TestThis(unittest.TestCase):
+class TestCurve(unittest.TestCase):
     """
     Test Curve class
     """

@@ -32,7 +32,8 @@ All software is tested on Ubuntu Linux, no OS specific features are used in the 
 Usage
 =====
 
-The main modules mentioned here have either unit tests where many examples are covered, or example code on how to use the code 
+The main modules mentioned here have either unit tests where many examples are covered, or example code on how to use the code.
+Unit tests are collected in `tests.py` 
 
 Limit order book
 ----------------
@@ -53,7 +54,7 @@ Main module for bond pricing is `securities/bond.py`.
 Algo Trading
 ------------
 
-Main module is `strategy/back_test_strategy.py`, this module illustrates how a mean reverting algo works based on a year of historical closings for an example stock.
+These modules are demonstraded with `demo_code.py`, it illustrates how a mean reverting algo works based on a year of historical closings for an example stock.
 
 Term structures
 ---------------

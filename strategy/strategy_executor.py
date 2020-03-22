@@ -10,7 +10,7 @@ from position_keeping.position import Position
 from position_keeping.trade import Trade
 from orderbook.matching_engine import MatchingEngine
 from constants import DEFAULT_SERVICE
-from strategy import Strategy
+from strategy.strategy import Strategy
 
 
 class Executor:
