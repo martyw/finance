@@ -9,6 +9,7 @@ from term_structures.surface import TestSurface
 from securities.bond import TestBond
 from strategy.mean_reverting import TestMeanReverting
 from market.market_data import TestMarketData
+from utils.date.yearfrac import TestDaycounts
 
 
 unittest.main()

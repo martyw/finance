@@ -105,7 +105,7 @@ class DayCountConvention_30_360_isda(DayCountConvention):
         return retval
 
 
-class TestThis(unittest.TestCase):
+class TestDaycounts(unittest.TestCase):
     def setUp(self):
         self.start_date = date(2004, 11, 21)
         self.end_date = self.start_date + timedelta(days=181)
