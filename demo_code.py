@@ -40,7 +40,7 @@ if __name__ == "__main__":
     dates = [pd.to_datetime(x) for x in back_test.pnl.index.values.tolist()]
     for col in list(back_test.pnl.columns):
         plt.plot(dates, back_test.pnl[col])
-        plt.legend(list(back_test.pnl.columns))
+    plt.legend(list(back_test.pnl.columns))
     plt.xlabel("time")
     plt.ylabel("Profit and Loss")
     plt.show()
