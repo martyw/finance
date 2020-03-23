@@ -44,8 +44,7 @@ class Order:
         return self._timestamp
 
     @timestamp.setter
-    def timestamp(self, value):
-        assert isinstance(value, datetime)
+    def timestamp(self, value: datetime):
         self._timestamp = value
 
     @property
@@ -72,7 +71,7 @@ class Order:
         return self._dealer_or_broker_id
 
     @dealer_or_broker_id.setter
-    def dealer_or_broker_id(self, cpty):
+    def dealer_or_broker_id(self, cpty: str):
         """dealer broker"""
         self._dealer_or_broker_id = cpty
 
@@ -82,7 +81,7 @@ class Order:
         return self._quantity
 
     @quantity.setter
-    def quantity(self, qty):
+    def quantity(self, qty: int):
         """quantity"""
         qty = int(qty)
         assert qty >= 0
@@ -94,7 +93,7 @@ class Order:
         return self._side
 
     @side.setter
-    def side(self, ask_bid):
+    def side(self, ask_bid: str):
         """bid or ask"""
         self._side = Side[ask_bid.upper()]
 

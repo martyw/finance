@@ -51,7 +51,7 @@ class Trade:
 
         return '%s @ %s (%s/%s) %s/%s' % attributes
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: str):
         """for querying properties in dict style"""
         if item == 'price':
             return self.matched_order.limit

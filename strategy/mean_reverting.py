@@ -6,6 +6,7 @@ import logging
 from datetime import datetime
 import pandas as pd
 import unittest
+from typing import List, Dict
 from strategy.strategy import Strategy
 from constants import DEFAULT_QUANTITY, INCREMENT, DUMMY_CPTY, OUR_CPTY
 from position_keeping.long_short import LongShort
@@ -28,7 +29,7 @@ class MeanRevertingStrategy(Strategy):
         self.sell_threshold = sell_threshold
         self.prices = pd.DataFrame()
 
-    def market_data_tick(self, market_data):
+    def market_data_tick(self, market_data: MarketData):
         self.store_prices(market_data)
         orders = []
 
@@ -38,15 +39,15 @@ class MeanRevertingStrategy(Strategy):
 
             if signal_value <= self.buy_threshold:
                 logging.debug("buy signal")
-                orders = self.on_buy_signal(timestamp)
+                orders = self.on_buy_signal()
             elif signal_value > self.sell_threshold:
                 logging.debug("sell signal")
-                orders = self.on_sell_signal(timestamp)
+                orders = self.on_sell_signal()
             else:
                 pass
         return orders
 
-    def on_buy_signal(self, timestamp):
+    def on_buy_signal(self) -> List[Dict]:
         logging.debug("Long or short : {}".format(self.long_short))
         orders = []
         if self.long_short in (LongShort.SHORT, LongShort.NO_POSITION):
@@ -71,7 +72,7 @@ class MeanRevertingStrategy(Strategy):
             orders.append(asdict(quote))
         return orders
 
-    def on_sell_signal(self, timestamp):
+    def on_sell_signal(self) -> List[Dict]:
         logging.debug("Long or short : {}".format(self.long_short))
         orders = []
         if self.long_short in (LongShort.LONG, LongShort.NO_POSITION):
@@ -97,14 +98,14 @@ class MeanRevertingStrategy(Strategy):
             orders.append(asdict(quote))
         return orders
 
-    def store_prices(self, market_data):
+    def store_prices(self, market_data: MarketData):
         timestamp = market_data.get_timestamp(self.symbol)
         self.prices.loc[timestamp, "close"] = \
             market_data.get_last_price(self.symbol)
         self.prices.loc[timestamp, "open"] = \
             market_data.get_open_price(self.symbol)
 
-    def calculate_z_score(self):
+    def calculate_z_score(self) -> float:
         self.prices = self.prices[-self.lookback_intervals:]
         returns = self.prices["close"].pct_change().dropna()
         z_score = ((returns-returns.mean())/returns.std())[-1]

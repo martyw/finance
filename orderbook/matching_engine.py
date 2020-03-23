@@ -11,6 +11,7 @@ import logging
 import unittest
 import csv
 import os
+from typing import Dict
 from sortedcontainers import SortedList
 from market.side import Side
 from position_keeping.trade import Trade
@@ -28,7 +29,7 @@ class MatchingEngine:
         self.bids = SortedList()
         self.asks = SortedList()
 
-    def match_order(self, quote):
+    def match_order(self, quote: Dict):
         """ process order given in argument quote
         """
         order = create_order(quote)
@@ -71,7 +72,7 @@ class MatchingEngine:
 
         return trades, order_in_book
 
-    def get_volume_at_price(self, side, price):
+    def get_volume_at_price(self, side: str, price: float) -> int:
         """ get the volume available in the orderbook
         """
         bid_or_ask = Side[side.upper()]
@@ -85,27 +86,27 @@ class MatchingEngine:
 
         return volume
 
-    def get_best_bid(self):
+    def get_best_bid(self) -> float:
         """ get best bid from orderbook
         """
         return self.bids[0].limit
 
-    def get_worst_bid(self):
+    def get_worst_bid(self) -> float:
         """ get worst bid from orderbook
         """
         return self.bids[-1].limit
 
-    def get_best_ask(self):
+    def get_best_ask(self) -> float:
         """ get best ask from orderbook
         """
         return self.asks[0].limit
 
-    def get_worst_ask(self):
+    def get_worst_ask(self) -> float:
         """ get worst ask from orderbook
         """
         return self.asks[-1].limit
 
-    def tape_dump(self, filename, filemode='w', tapemode=None):
+    def tape_dump(self, filename: str, filemode: str = 'w', tapemode: str = None):
         """ write trades to file in arg filename
         """
         with open(filename, filemode) as dumpfile:

@@ -3,6 +3,7 @@ Get a list of forward rates
 starting from the second time period
 """
 import unittest
+from typing import List
 from term_structures.curve import Curve
 
 
@@ -12,12 +13,12 @@ class ForwardRates(Curve):
         self.spot_rates = dict()
         super().__init__([], [])
 
-    def add_spot_rate(self, term, spot_rate):
+    def add_spot_rate(self, term: float, spot_rate: float):
         """ initializing with spot rates"""
         self.spot_rates[term] = spot_rate
 
     @property
-    def factors(self):
+    def factors(self) -> List[float]:
         """return the list of forward rates implied by the spot rates"""
         forward_rates = []
         periods = sorted(self.spot_rates.keys())
@@ -27,7 +28,7 @@ class ForwardRates(Curve):
 
         return forward_rates
 
-    def calculate_forward_rate(self, term1, term2):
+    def calculate_forward_rate(self, term1: float, term2: float) -> float:
         """ the calculation itself"""
         rate1 = self.spot_rates[term1]
         rate2 = self.spot_rates[term2]

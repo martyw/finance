@@ -3,6 +3,7 @@ Model for a curve made of time/value points with an interpolator
 """
 import unittest
 from math import exp
+from typing import List
 from numpy import interp, log10
 
 
@@ -15,21 +16,21 @@ class Curve:
         self._factors = factors
 
     @property
-    def times(self):
+    def times(self) -> List[float]:
         """to support overwrites when class is used as base"""
         return self._times
 
     @times.setter
-    def times(self, val):
+    def times(self, val: List[float]):
         self._times = val
 
     @property
-    def factors(self):
+    def factors(self) -> List[float]:
         """to support overwrites when class is used as base"""
         return self._factors
 
     @factors.setter
-    def factors(self, val):
+    def factors(self, val: List[float]):
         self._factors = val
 
     def loglinear_interpolate(self, time_arg: float) -> float:

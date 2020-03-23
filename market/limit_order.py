@@ -18,11 +18,11 @@ class LimitOrder(Order):
         return self._limit
 
     @limit.setter
-    def limit(self, price):
+    def limit(self, price: float):
         """limit"""
         self._limit = float(price)
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: str):
         """for quering properties in dict style"""
         if item == 'type':
             return 'limit'

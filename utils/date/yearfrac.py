@@ -1,8 +1,7 @@
 """Implements the yearfrac function from Excel
 """
 from enum import Enum
-from datetime import date
-from datetime import timedelta
+from datetime import datetime, date, timedelta
 from calendar import isleap
 import unittest
 
@@ -39,7 +38,7 @@ class DayCountConvention:
     def __init__(self, convention=DayCntCnvEnum.undefined):
         self.convetion = convention
 
-    def year_fraction(self, from_date, to_date):
+    def year_fraction(self, from_date: datetime, to_date: datetime):
         assert to_date > from_date
 
 
@@ -47,7 +46,7 @@ class DayCountConvention_act_360(DayCountConvention):
     def __init__(self):
         super().__init__(DayCntCnvEnum.basis_act_360)
 
-    def year_fraction(self, from_date, to_date):
+    def year_fraction(self, from_date: datetime, to_date: datetime):
         super().year_fraction(from_date, to_date)
         return (to_date - from_date).days / 360.0
 
@@ -56,7 +55,7 @@ class DayCountConvention_act_365_fixed(DayCountConvention):
     def __init__(self):
         super().__init__(DayCntCnvEnum.basis_act_365_fixed)
 
-    def year_fraction(self, from_date, to_date):
+    def year_fraction(self, from_date: datetime, to_date: datetime):
         super().year_fraction(from_date, to_date)
         return (to_date - from_date).days / 365.0
 
@@ -65,7 +64,7 @@ class DayCountConvention_act_act_isda(DayCountConvention):
     def __init__(self):
         super().__init__(DayCntCnvEnum.basis_act_act_isda)
 
-    def year_fraction(self, from_date, to_date):
+    def year_fraction(self, from_date: datetime, to_date: datetime):
         super().year_fraction(from_date, to_date)
         if from_date.year != to_date.year:
             start_of_to = date(to_date.year, 1, 1)
@@ -88,7 +87,7 @@ class DayCountConvention_30_360_isda(DayCountConvention):
     def __init__(self):
         super().__init__(DayCntCnvEnum.basis_30_360_isda)
 
-    def year_fraction(self, from_date, to_date):
+    def year_fraction(self, from_date: datetime, to_date: datetime):
         super().year_fraction(from_date, to_date)
         from_day = from_date.day
         if from_day == 31:

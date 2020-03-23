@@ -39,7 +39,7 @@ class Position:
             self.long_short = LongShort.NO_POSITION
             self.realized_pnl = self.position_value
 
-    def update_unrealized_pnl(self, price: float):
+    def update_unrealized_pnl(self, price: float) -> float:
         if self.net == 0:
             self.unrealized_pnl = 0
         else:
