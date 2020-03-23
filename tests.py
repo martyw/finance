@@ -1,7 +1,7 @@
 import unittest
 
 from orderbook.matching_engine import TestExample, TestAlgoSim
-from options.black_scholes import TestBS
+from options.black_scholes import TestBSPricer, TestImpliedVolatilityStatic
 from term_structures.bootstrap import TestBootstrap
 from term_structures.curve import TestCurve
 from term_structures.forward_rates import TestForwardCurve
