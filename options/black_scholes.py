@@ -12,8 +12,9 @@ from utils.date.yearfrac import day_count, DayCntCnvEnum
 from utils.parameters.environment import Environment
 
 MAX_ITERATIONS = 100
-PLACES=5
+PLACES = 5
 PRECISION = 10**-PLACES
+
 
 class BlackScholesPricer:
     def __init__(self,
@@ -50,17 +51,17 @@ class BlackScholesPricer:
 
     @property
     def price(self) -> float:
-        return BlackScholesPricer.pricer(call_put_flag=self.style,
-                                         spot=self.spot,
-                                         strike=self.strike,
-                                         time_to_maturity=self.time_to_maturity,
-                                         interest_rate=self.interest_rate,
-                                         volatility=self.volatility)
+        return BlackScholesPricer.calculate_price(call_put_flag=self.style,
+                                                  spot=self.spot,
+                                                  strike=self.strike,
+                                                  time_to_maturity=self.time_to_maturity,   # noqa
+                                                  interest_rate=self.interest_rate,         # noqa
+                                                  volatility=self.volatility)
 
     @staticmethod
-    def pricer(call_put_flag: int, spot: float, strike: float,
-               time_to_maturity: float, interest_rate: float,
-               volatility: float) -> float:
+    def calculate_price(call_put_flag: int, spot: float, strike: float,
+                        time_to_maturity: float, interest_rate: float,
+                        volatility: float) -> float:
         assert call_put_flag == -1 or call_put_flag == 1
         sig = volatility
         t = time_to_maturity
@@ -80,8 +81,8 @@ class BlackScholesPricer:
     def vega(self) -> float:
         return BlackScholesPricer.calculate_vega(spot=self.spot,
                                                  strike=self.strike,
-                                                 time_to_maturity=self.time_to_maturity,
-                                                 interest_rate=self.interest_rate,
+                                                 time_to_maturity=self.time_to_maturity,    # noqa
+                                                 interest_rate=self.interest_rate,          # noqa
                                                  volatility=self.volatility)
 
     @staticmethod
@@ -105,31 +106,31 @@ class BlackScholesPricer:
                     strike: float,
                     time_to_maturity: float,
                     interest_rate: float) -> float:
-        """solve for volatility by observed price
+        """solve for volatility with known observed price
         Newton-Raphson to approximate implied volatility"""
         assert call_put_flag == -1 or call_put_flag == 1
 
-        sigma = 0.5 # guess
+        sigma = 0.5     # initial guess
         i = 0
         diff = PRECISION + 1
 
         while i < MAX_ITERATIONS and abs(diff) > PRECISION:
-            price = BlackScholesPricer.pricer(call_put_flag=call_put_flag,
-                                              spot=spot,
-                                              strike=strike,
-                                              time_to_maturity=time_to_maturity,
-                                              interest_rate=interest_rate,
-                                              volatility=sigma)
+            price = BlackScholesPricer.calculate_price(call_put_flag=call_put_flag,         # noqa
+                                                       spot=spot,
+                                                       strike=strike,
+                                                       time_to_maturity=time_to_maturity,   # noqa
+                                                       interest_rate=interest_rate,         # noqa
+                                                       volatility=sigma)
 
             vega = BlackScholesPricer.calculate_vega(spot=spot,
                                                      strike=strike,
-                                                     time_to_maturity=time_to_maturity,
-                                                     interest_rate=interest_rate,
+                                                     time_to_maturity=time_to_maturity,     # noqa
+                                                     interest_rate=interest_rate,           # noqa
                                                      volatility=sigma)
 
-            diff = observed_price - price  # our root
+            diff = observed_price - price   # root
             logging.debug(i, sigma, diff)
-            sigma = sigma + diff/vega # f(x) / f'(x)
+            sigma = sigma + diff/vega       # f(x) / f'(x)
 
             i += 1
 
@@ -140,8 +141,8 @@ class BlackScholesPricer:
                                               call_put_flag=int(self.style),
                                               spot=self.spot,
                                               strike=self.strike,
-                                              time_to_maturity=self.time_to_maturity,   #noqa
-                                              interest_rate=self.interest_rate)         #noqa
+                                              time_to_maturity=self.time_to_maturity,   # noqa
+                                              interest_rate=self.interest_rate)         # noqa
 
 
 class TestBSPricer(unittest.TestCase):
@@ -152,8 +153,7 @@ class TestBSPricer(unittest.TestCase):
         self.env.valuation_date = date(2019, 7, 23)
 
     def test_contract(self):
-        self.env.add_curve("curve", Curve([0.001, 1, 2],
-                                          [0.01, 0.05, 0.1]))
+        self.env.add_curve("curve", Curve({0.001: 0.01 , 1: 0.05, 2: 0.1}))
         self.env.add_surface("surface",
                              Surface([0.01, 1, 2], [95.0, 100.0, 105.0],
                                      [[0.25, 0.25, 0.25],
@@ -163,33 +163,32 @@ class TestBSPricer(unittest.TestCase):
         strike = 100.0
         expiry_date = date(2020, 7, 23)
 
-        contract = BlackScholesPricer(spot,
-                                      strike,
-                                      self.env.get_curve("curve"),
-                                      self.env.get_surface("surface"),
-                                      self.env.valuation_date,
-                                      expiry_date,
-                                      self.env.get_constant("daycount"),
-                                      OptionStyle.CALL)
+        contract = BlackScholesPricer(spot=spot,
+                                      strike=strike,
+                                      discount_curve=self.env.get_curve("curve"),           # noqa
+                                      volatility_surface=self.env.get_surface("surface"),   # noqa
+                                      valuation_date=self.env.valuation_date,
+                                      maturity_date=expiry_date,
+                                      convention=self.env.get_constant("daycount"),         # noqa
+                                      style=OptionStyle.CALL)
         self.assertEqual(contract.price, 0.027352509369436284)
 
         implied = contract.implied_volatility(observed_price=0.0273525)
         self.assertAlmostEqual(implied, 0.25, places=PLACES)
 
-        contract = BlackScholesPricer(spot,
-                                      strike,
-                                      self.env.get_curve("curve"),
-                                      self.env.get_surface("surface"),
-                                      self.env.valuation_date,
-                                      expiry_date,
-                                      self.env.get_constant("daycount"),
-                                      OptionStyle.PUT)
+        contract = BlackScholesPricer(spot=spot,
+                                      strike=strike,
+                                      discount_curve=self.env.get_curve("curve"),           # noqa
+                                      volatility_surface=self.env.get_surface("surface"),   # noqa
+                                      valuation_date=self.env.valuation_date,
+                                      maturity_date=expiry_date,
+                                      convention=self.env.get_constant("daycount"),         # noqa
+                                      style=OptionStyle.PUT)
         self.assertEqual(contract.price, 45.150294959440842)
         self.assertAlmostEqual(implied, 0.25, places=PLACES)
 
     def test_other_contract(self):
-        self.env.add_curve("curve", Curve([0.001, 1, 2],
-                                          [0.1, 0.1, 0.1]))
+        self.env.add_curve("curve", Curve({0.001: 0.1, 1: 0.1, 2: 0.1}))
         self.env.add_surface("surface", Surface([0.01, 1, 2],
                                                 [35.0, 40.0, 45.0],
                                                 [[0.15, 0.15, 0.15],
@@ -199,28 +198,27 @@ class TestBSPricer(unittest.TestCase):
         strike = 40.0
         expiry_date = self.env.valuation_date + timedelta(days=181)
 
-        contract = BlackScholesPricer(spot,
-                                      strike,
-                                      self.env.get_curve("curve"),
-                                      self.env.get_surface("surface"),
-                                      self.env.valuation_date,
-                                      expiry_date,
-                                      self.env.get_constant("daycount"),
-                                      OptionStyle.CALL)
+        contract = BlackScholesPricer(spot=spot,
+                                      strike=strike,
+                                      discount_curve=self.env.get_curve("curve"),           # noqa
+                                      volatility_surface=self.env.get_surface("surface"),   # noqa
+                                      valuation_date=self.env.valuation_date,
+                                      maturity_date=expiry_date,
+                                      convention=self.env.get_constant("daycount"),         # noqa
+                                      style=OptionStyle.CALL)
         price = 4.721352072007573
         self.assertEqual(contract.price, price)
-        implied=contract.implied_volatility(observed_price=price)
+        implied = contract.implied_volatility(observed_price=price)
         self.assertAlmostEqual(implied, 0.2, places=PLACES)
 
-
-        contract = BlackScholesPricer(spot,
-                                      strike,
-                                      self.env.get_curve("curve"),
-                                      self.env.get_surface("surface"),
-                                      self.env.valuation_date,
-                                      expiry_date,
-                                      self.env.get_constant("daycount"),
-                                      OptionStyle.PUT)
+        contract = BlackScholesPricer(spot=spot,
+                                      strike=strike,
+                                      discount_curve=self.env.get_curve("curve"),           # noqa
+                                      volatility_surface=self.env.get_surface("surface"),   # noqa
+                                      valuation_date=self.env.valuation_date,
+                                      maturity_date=expiry_date,
+                                      convention=self.env.get_constant("daycount"),         # noqa
+                                      style=OptionStyle.PUT)
         self.assertEqual(contract.price, 0.8022499147099111)
 
 
@@ -229,21 +227,22 @@ class TestImpliedVolatilityStatic(unittest.TestCase):
         self.env = Environment()
         self.env.add_constant("daycount",
                               DayCntCnvEnum.basis_act_365_fixed)
-        self.env.add_curve("curve", Curve([0.001, 1, 2],
-                                          [0.0002, 0.0002, 0.0002]))
+        crv = Curve({0.001: 0.0002, 1: 0.0002, 2: 0.0002})
+        self.env.add_curve("curve", crv)
         self.env.valuation_date = date(2014, 9, 8)
         self.contract = BlackScholesPricer(spot=586.08,
                                            strike=585,
-                                           discount_curve=self.env.get_curve("curve"),      #noqa
+                                           discount_curve=self.env.get_curve("curve"),      # noqa
                                            volatility_surface=None,
-                                           valuation_date=self.env.valuation_date,          #noqa
+                                           valuation_date=self.env.valuation_date,          # noqa
                                            maturity_date=date(2014, 10, 18),
-                                           convention=self.env.get_constant("daycount"),    #noqa
+                                           convention=self.env.get_constant("daycount"),    # noqa
                                            style=OptionStyle.CALL)
 
     def test_implied_vol(self):
-        implied=self.contract.implied_volatility(observed_price=17.5)
+        implied = self.contract.implied_volatility(observed_price=17.5)
         self.assertAlmostEqual(implied, 0.219213836, places=PLACES)
+
 
 if __name__ == '__main__':
     unittest.main()

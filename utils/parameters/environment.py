@@ -47,7 +47,7 @@ class Environment:
         return self.constants[key]
 
 
-class TestThis(unittest.TestCase):
+class TestEnvironment(unittest.TestCase):
     def test_environment(self):
         env = Environment()
         with self.assertRaises(KeyError):

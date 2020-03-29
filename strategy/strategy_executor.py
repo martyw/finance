@@ -25,7 +25,7 @@ class Executor:
         self.matching_engine = MatchingEngine()
         self.positions = dict()
         self.current_prices = None
-        self.pnl = pd.DataFrame(columns = ["Realized PnL", "Unrealized PnL"])
+        self.pnl = pd.DataFrame(columns=["Realized PnL", "Unrealized PnL"])
 
     @property
     def strategy(self):

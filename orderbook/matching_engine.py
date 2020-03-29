@@ -106,7 +106,10 @@ class MatchingEngine:
         """
         return self.asks[-1].limit
 
-    def tape_dump(self, filename: str, filemode: str = 'w', tapemode: str = None):
+    def tape_dump(self,
+                  filename: str,
+                  filemode: str = 'w',
+                  tapemode: str = None):
         """ write trades to file in arg filename
         """
         with open(filename, filemode) as dumpfile:

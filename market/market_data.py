@@ -9,14 +9,21 @@ class MarketData:
     def __init__(self):
         self.__recent_ticks__ = dict()
 
-    def add_last_price(self, time: datetime, symbol: str, price: float, volume: int):
+    def add_last_price(self,
+                       time: datetime,
+                       symbol: str,
+                       price: float,
+                       volume: int):
         logging.debug("add last {0}, {1} - {2}/{3}".format(time, symbol,
                                                            price, volume))
         tick_data = TickData(symbol=symbol, last_price=price,
                              total_volume=volume, timestamp=time)
         self.__recent_ticks__[symbol] = tick_data
 
-    def add_open_price(self, time: datetime, symbol: str, price: float):
+    def add_open_price(self,
+                       time: datetime,
+                       symbol: str,
+                       price: float):
         logging.debug("add open {0}, {1} - {2}".format(time, symbol, price))
         tick_data = self.get_existing_tick_data(symbol)
         tick_data.open_price = price
@@ -74,7 +81,6 @@ class TestMarketData(unittest.TestCase):
         self.assertEqual(last, self.last)
         time = self.md.get_timestamp(self.symbol)
         self.assertEqual(time, self.timestamp)
-
 
 
 if __name__ == '__main__':

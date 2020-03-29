@@ -16,7 +16,10 @@ class BackTester(Executor):
     def __init__(self, symbol: str, data_source: str = DEFAULT_SERVICE):
         super().__init__(symbol, data_source)
 
-    def start_back_test(self, start_date: datetime, end_date: datetime, test_mode: bool = False):
+    def start_back_test(self,
+                        start_date: datetime,
+                        end_date: datetime,
+                        test_mode: bool = False):
         self.strategy = MeanRevertingStrategy(self.symbol, test_mode)
 
         mds = MarketDataSource(self.symbol, self.market_data_source,

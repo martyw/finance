@@ -11,7 +11,7 @@ class ForwardRates(Curve):
     """ forward rates calculation"""
     def __init__(self):
         self.spot_rates = dict()
-        super().__init__([], [])
+        super().__init__({})
 
     def add_spot_rate(self, term: float, spot_rate: float):
         """ initializing with spot rates"""
@@ -28,11 +28,15 @@ class ForwardRates(Curve):
 
         return forward_rates
 
+    @staticmethod
+    def forward(term1, rate1, term2, rate2):
+        return (rate2 * term2 - rate1 * term1) / (term2 - term1)
+
     def calculate_forward_rate(self, term1: float, term2: float) -> float:
         """ the calculation itself"""
         rate1 = self.spot_rates[term1]
         rate2 = self.spot_rates[term2]
-        forward_rate = (rate2 * term2 - rate1 * term1) / (term2 - term1)
+        forward_rate = ForwardRates.forward(term1, rate1, term2, rate2)
 
         return forward_rate
 

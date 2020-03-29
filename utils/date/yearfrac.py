@@ -1,7 +1,7 @@
 """Implements the yearfrac function from Excel
 """
 from enum import Enum
-from datetime import datetime, date, timedelta
+from datetime import date, timedelta
 from calendar import isleap
 import unittest
 
@@ -29,7 +29,7 @@ def day_count(convention):
     elif convention == DayCntCnvEnum.basis_30_360_isda:
         retval = DayCountConvention_30_360_isda()
     else:
-        raise KeyError('Unknown daycount %s' % convention)
+        raise KeyError("Unknown daycount {}".format(convention))
 
     return retval
 
@@ -38,15 +38,18 @@ class DayCountConvention:
     def __init__(self, convention=DayCntCnvEnum.undefined):
         self.convetion = convention
 
-    def year_fraction(self, from_date: datetime, to_date: datetime):
-        assert to_date > from_date
+    def year_fraction(self, from_date: date, to_date: date):
+        assert to_date >= from_date
+
+    def __repr__(self):
+        return str(self.convetion)
 
 
 class DayCountConvention_act_360(DayCountConvention):
     def __init__(self):
         super().__init__(DayCntCnvEnum.basis_act_360)
 
-    def year_fraction(self, from_date: datetime, to_date: datetime):
+    def year_fraction(self, from_date: date, to_date: date):
         super().year_fraction(from_date, to_date)
         return (to_date - from_date).days / 360.0
 
@@ -55,7 +58,7 @@ class DayCountConvention_act_365_fixed(DayCountConvention):
     def __init__(self):
         super().__init__(DayCntCnvEnum.basis_act_365_fixed)
 
-    def year_fraction(self, from_date: datetime, to_date: datetime):
+    def year_fraction(self, from_date: date, to_date: date):
         super().year_fraction(from_date, to_date)
         return (to_date - from_date).days / 365.0
 
@@ -64,7 +67,7 @@ class DayCountConvention_act_act_isda(DayCountConvention):
     def __init__(self):
         super().__init__(DayCntCnvEnum.basis_act_act_isda)
 
-    def year_fraction(self, from_date: datetime, to_date: datetime):
+    def year_fraction(self, from_date: date, to_date: date):
         super().year_fraction(from_date, to_date)
         if from_date.year != to_date.year:
             start_of_to = date(to_date.year, 1, 1)
@@ -87,7 +90,7 @@ class DayCountConvention_30_360_isda(DayCountConvention):
     def __init__(self):
         super().__init__(DayCntCnvEnum.basis_30_360_isda)
 
-    def year_fraction(self, from_date: datetime, to_date: datetime):
+    def year_fraction(self, from_date: date, to_date: date):
         super().year_fraction(from_date, to_date)
         from_day = from_date.day
         if from_day == 31:
