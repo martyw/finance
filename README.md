@@ -19,13 +19,8 @@ Features
 Requirements
 ============
 
-Code is tested with Python 3.7. Needed modules not part of the standard release are
-- sortedcontainers
-- numpy
-- scipy
-- pandas
-- matplotlib
-- requests_cache
+Code is tested with Python 3.8. Needed modules not part of the standard release are listed in requirements.txt
+
 
 All software is tested on Ubuntu Linux, no OS specific features are used in the code.
 
@@ -34,6 +29,7 @@ Usage
 
 The main modules mentioned here have either unit tests where many examples are covered, or example code on how to use the code.
 Unit tests are collected in `tests.py` 
+An API is being buitl with Flask, see `api/app_server.py`
 
 Limit order book
 ----------------

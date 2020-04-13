@@ -3,7 +3,8 @@ Model for a curve made of time/value points with an interpolator
 """
 import unittest
 from math import exp
-from typing import List, Dict
+from typing import List
+
 from numpy import interp, log10
 
 

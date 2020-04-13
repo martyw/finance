@@ -1,7 +1,7 @@
-import unittest
 import logging
-from math import log, sqrt, exp
+import unittest
 from datetime import date, timedelta
+from math import log, sqrt, exp
 
 from scipy.stats import norm
 

@@ -4,3 +4,4 @@ DUMMY_CPTY = "dummy"
 OUR_CPTY = "us"
 DEFAULT_SERVICE = "yahoo"
 TEST_MODE = True
+DELTA_YIELD = 0.01

@@ -1,6 +1,6 @@
 import unittest
-from datetime import timedelta
 from datetime import date
+from datetime import timedelta
 from enum import Enum
 
 

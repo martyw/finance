@@ -1,4 +1,5 @@
 import datetime
+
 import pandas_datareader as web
 from requests_cache import CachedSession
 

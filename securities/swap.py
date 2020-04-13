@@ -1,17 +1,17 @@
-from datetime import date
-from typing import List
-from os import linesep
 import unittest
+from datetime import date
+from os import linesep
+from typing import List
 
-from securities.cash_flow_schedule import CashFlowSchedule, Cashflow
-from utils.date.yearfrac import DayCntCnvEnum, day_count
-from utils.date.date_shifts import ShiftConvention, shift_convention
+from securities.cash_flow_schedule import CashFlowSchedule, CashFlow
 from term_structures.curve import Curve
 from term_structures.forward_rates import ForwardRates
+from utils.date.date_shifts import ShiftConvention, shift_convention
+from utils.date.yearfrac import DayCntCnvEnum, day_count
 from utils.parameters.environment import Environment
 
 
-class Swaplet(Cashflow):
+class Swaplet(CashFlow):
     def __init__(self,
                  start_date: date,
                  end_date: date,

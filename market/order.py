@@ -3,8 +3,9 @@
 import itertools
 import logging
 from datetime import datetime
-from market.side import Side
 from typing import Dict
+
+from market.side import Side
 
 
 class Order:

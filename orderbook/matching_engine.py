@@ -7,16 +7,18 @@ key logic is in method match_order, an incoming order is matched against the
 orders in the relevant list. if there is a remaining quantity after a partial
 fill a replacement order is added to the book. trades are returned
 """
-import logging
-import unittest
 import csv
+import logging
 import os
+import unittest
 from typing import Dict
+
 from sortedcontainers import SortedList
-from market.side import Side
-from position_keeping.trade import Trade
+
 from market.order_factory import create_order
 from market.quote import Quote, asdict
+from market.side import Side
+from position_keeping.trade import Trade
 
 
 class MatchingEngine:

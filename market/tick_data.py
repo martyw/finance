@@ -1,6 +1,6 @@
 """ Store a single unit of data """
-from datetime import datetime
 from dataclasses import dataclass
+from datetime import datetime
 
 
 @dataclass

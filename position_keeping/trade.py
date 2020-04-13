@@ -1,9 +1,9 @@
 """
 trade
 """
-from market.order import Order
-from market.market_order import MarketOrder
 from market.limit_order import LimitOrder
+from market.market_order import MarketOrder
+from market.order import Order
 from market.side import Side
 
 

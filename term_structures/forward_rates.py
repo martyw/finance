@@ -4,6 +4,7 @@ starting from the second time period
 """
 import unittest
 from typing import List
+
 from term_structures.curve import Curve
 
 

@@ -1,9 +1,10 @@
 """ Bootstrapping the yield curve """
 import unittest
-from typing import List
 from math import log, exp
-from term_structures.curve import Curve
+from typing import List
+
 from securities.bond import Bond
+from term_structures.curve import Curve
 
 
 class BootstrappedCurve(Curve):
@@ -70,12 +71,11 @@ class TestBootstrap(unittest.TestCase):
 
     def test_bootstrap(self):
         """test bootstrap"""
-        rates = {}
-        rates[0.25] = 0.10127123193715915
-        rates[0.5] = 0.10469296074441839
-        rates[1.0] = 0.10536051565782635
-        rates[1.5] = 0.1068092638817053
-        rates[2.0] = 0.10808027549746793
+        rates = {0.25: 0.10127123193715915,
+                 0.5: 0.10469296074441839,
+                 1.0: 0.10536051565782635,
+                 1.5: 0.1068092638817053,
+                 2.0: 0.10808027549746793}
         self.assertEqual(self.yield_curve.rates, list(rates.values()))
 
     def test_interpolator(self):
@@ -89,6 +89,7 @@ class TestBootstrap(unittest.TestCase):
     def test_string_representation(self):
         expected = "{0.25: 0.10127123193715915, 0.5: 0.10469296074441839, 1.0: 0.10536051565782635, 1.5: 0.1068092638817053, 2.0: 0.10808027549746793}"  # noqa
         self.assertEqual(str(self.yield_curve), expected)
+
 
 if __name__ == '__main__':
     unittest.main()

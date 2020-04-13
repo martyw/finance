@@ -1,9 +1,10 @@
 """
 order factory method
 """
-from market.market_order import MarketOrder
-from market.limit_order import LimitOrder
 from typing import Dict
+
+from market.limit_order import LimitOrder
+from market.market_order import MarketOrder
 
 
 def create_order(quote: Dict):

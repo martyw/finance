@@ -1,8 +1,9 @@
 """ A container to store latest known prices for a list of symbols """
-from market.tick_data import TickData
-from datetime import datetime
-import unittest
 import logging
+import unittest
+from datetime import datetime
+
+from market.tick_data import TickData
 
 
 class MarketData:

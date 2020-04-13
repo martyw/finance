@@ -3,16 +3,18 @@ Implementation of a mean-reverting strategy
 based on the Strategy class
 """
 import logging
-from datetime import datetime
-import pandas as pd
 import unittest
+from datetime import datetime
 from typing import List, Dict
-from strategy.strategy import Strategy
+
+import pandas as pd
+
 from constants import DEFAULT_QUANTITY, INCREMENT, DUMMY_CPTY, OUR_CPTY
-from position_keeping.long_short import LongShort
+from market.market_data import MarketData
 from market.quote import Quote, asdict
 from market.tick_data import TickData
-from market.market_data import MarketData
+from position_keeping.long_short import LongShort
+from strategy.strategy import Strategy
 
 
 class MeanRevertingStrategy(Strategy):

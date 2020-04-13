@@ -1,5 +1,5 @@
-from datetime import date
 import unittest
+from datetime import date
 
 
 class Environment:

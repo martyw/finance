@@ -1,15 +1,15 @@
 import logging
 from datetime import datetime
-from typing import List
 from typing import Dict
+from typing import List
 
 import pandas as pd
 
+from constants import DEFAULT_SERVICE
 from market.market_data import MarketData
+from orderbook.matching_engine import MatchingEngine
 from position_keeping.position import Position
 from position_keeping.trade import Trade
-from orderbook.matching_engine import MatchingEngine
-from constants import DEFAULT_SERVICE
 from strategy.strategy import Strategy
 
 

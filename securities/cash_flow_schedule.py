@@ -3,12 +3,12 @@ import unittest
 from datetime import date
 from typing import List
 
-from utils.date.yearfrac import  DayCntCnvEnum, day_count, DayCountConvention
 from utils.date.add_months import add_months
 from utils.date.date_shifts import DateShiftNone
+from utils.date.yearfrac import DayCntCnvEnum, day_count, DayCountConvention
 
 
-class Cashflow:
+class CashFlow:
     def __init__(self,
                  start_date: date,
                  end_date: date,
@@ -18,7 +18,6 @@ class Cashflow:
         self._end_date = end_date
         self.amount = amount
         self.daycount = daycount
-
 
     @property
     def year_fraction(self):
@@ -93,7 +92,7 @@ class CashFlowSchedule:
             prev = dt
             dt = add_months(dt, -1 * number_months_in_swaplet)
             dt = self.date_shift.shift(dt, self.holidays)
-            self.cashflows.append(Cashflow(start_date=dt,
+            self.cashflows.append(CashFlow(start_date=dt,
                                            end_date=prev,
                                            amount=self.amount,
                                            daycount=self.daycount

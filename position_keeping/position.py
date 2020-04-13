@@ -1,8 +1,9 @@
 """Position"""
 from typing import List
-from position_keeping.trade import Trade
-from position_keeping.long_short import LongShort
+
 from constants import OUR_CPTY
+from position_keeping.long_short import LongShort
+from position_keeping.trade import Trade
 
 
 class Position:

@@ -1,9 +1,9 @@
 """Implements the yearfrac function from Excel
 """
-from enum import Enum
-from datetime import date, timedelta
-from calendar import isleap
 import unittest
+from calendar import isleap
+from datetime import date, timedelta
+from enum import Enum
 
 
 class DayCntCnvEnum(Enum):

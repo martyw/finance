@@ -4,12 +4,13 @@ keep track of PnL over time
 """
 import logging
 from datetime import datetime
+
 import pandas as pd
 
-from strategy.mean_reverting import MeanRevertingStrategy
-from strategy.market_data_source import MarketDataSource
-from strategy.strategy_executor import Executor
 from constants import DEFAULT_SERVICE, TEST_MODE
+from strategy.market_data_source import MarketDataSource
+from strategy.mean_reverting import MeanRevertingStrategy
+from strategy.strategy_executor import Executor
 
 
 class BackTester(Executor):
