@@ -28,7 +28,7 @@ Usage
 =====
 
 The main modules mentioned here have either unit tests where many examples are covered, or example code on how to use the code.
-Unit tests are collected in `tests.py` 
+Unit tests are collected in directory tests, used naming convention serves `pytest`
 An API is being buitl with Flask, see `api/app_server.py`
 
 Limit order book
