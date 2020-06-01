@@ -7,11 +7,12 @@ from utils.date.yearfrac import DayCntCnvEnum, day_count
 
 class TestCashFlow(unittest.TestCase):
     def test_regular_flows(self):
+        dc = day_count(DayCntCnvEnum.basis_30_360_isda)
         sl = CashFlowSchedule(amount=100.0,
                               start_date=date(2020, 1, 6),
                               maturity_date=date(2023, 1, 6),
                               frequency=2,
-                              daycount=day_count(DayCntCnvEnum.basis_30_360_isda),
+                              daycount=dc,
                               date_shift=DateShiftNone())
         sl.generate_cashflows()
         self.assertEqual(len(sl.cashflows), 6)
@@ -23,11 +24,12 @@ class TestCashFlow(unittest.TestCase):
         self.assertEqual(sl[5].start_date, date(2022, 7, 6))
 
     def test_stub(self):
+        dc = day_count(DayCntCnvEnum.basis_30_360_isda)
         sl = CashFlowSchedule(amount=100.0,
                               start_date=date(2020, 4, 6),
                               maturity_date=date(2023, 1, 6),
                               frequency=2,
-                              daycount=day_count(DayCntCnvEnum.basis_30_360_isda),
+                              daycount=dc,
                               date_shift=DateShiftNone())
         sl.generate_cashflows()
         self.assertEqual(len(sl.cashflows), 6)
@@ -44,4 +46,3 @@ class TestCashFlow(unittest.TestCase):
         self.assertEqual(sl[3].year_fraction, 0.5)
         self.assertEqual(sl[4].year_fraction, 0.5)
         self.assertEqual(sl[5].year_fraction, 0.5)
-

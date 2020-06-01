@@ -2,6 +2,7 @@
 side of the order
 """
 from enum import IntEnum
+# pylint: disable=no-member
 
 
 class Side(IntEnum):
@@ -9,6 +10,6 @@ class Side(IntEnum):
     ASK = 1
     BID = -1
 
-    def __str__(self):
+    def __str__(self) -> str:
         """prints bid or ask"""
         return super().name.lower()

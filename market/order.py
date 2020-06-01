@@ -18,12 +18,13 @@ class Order:
         """ check if quote has required properties and assign them
         """
         if 'trade_id' in quote:
-            self.dealer_or_broker_id = quote['trade_id']
+            self._dealer_or_broker_id = quote['trade_id']
         else:
-            self.dealer_or_broker_id = quote['dealer_or_broker_id']
+            self._dealer_or_broker_id = quote['dealer_or_broker_id']
 
-        self.side = quote['side']
-        self.quantity = quote['quantity']
+        self._side = Side[quote['side'].upper()]
+        self._quantity = int(quote['quantity'])
+        assert self._quantity >= 0
         self.order_id = next(Order.newid)
 
         logging.debug("*** Order: broker %s, side %s, qty %s, id %s, limit %s",
@@ -36,9 +37,9 @@ class Order:
             self._symbol = None
 
         if "timestamp" in quote:
-            self.timestamp = quote["timestamp"]
+            self._timestamp = quote["timestamp"]
         else:
-            self.timestamp = datetime.utcnow()
+            self._timestamp = datetime.utcnow()
 
     @property
     def timestamp(self):

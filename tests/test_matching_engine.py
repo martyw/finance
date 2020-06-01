@@ -2,8 +2,8 @@ import csv
 import logging
 import os.path
 import unittest
-
-from market.quote import Quote, asdict
+from dataclasses import asdict
+from market.quote import Quote
 from orderbook.matching_engine import MatchingEngine
 from position_keeping.trade import Trade
 

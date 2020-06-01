@@ -4,26 +4,27 @@ based on the Strategy class
 """
 import logging
 from typing import List, Dict
-
+from dataclasses import asdict
 import pandas as pd
 
 from constants import DEFAULT_QUANTITY, INCREMENT, DUMMY_CPTY, OUR_CPTY
 from market.market_data import MarketData
-from market.quote import Quote, asdict
+from market.quote import Quote
 from position_keeping.long_short import LongShort
 from strategy.strategy import Strategy
 
 
+# pylint: disable=too-many-arguments
 class MeanRevertingStrategy(Strategy):
     def __init__(self,
                  symbol: str,
                  test_mode: bool = False,
-                 lookback_intervals: int = 20,
+                 look_back_intervals: int = 20,
                  buy_threshold: float = -1.5,
                  sell_threshold: float = 1.5):
 
         super().__init__(symbol, test_mode)
-        self.lookback_intervals = lookback_intervals
+        self.look_back_intervals = look_back_intervals
         self.buy_threshold = buy_threshold
         self.sell_threshold = sell_threshold
         self.prices = pd.DataFrame()
@@ -32,7 +33,7 @@ class MeanRevertingStrategy(Strategy):
         self.store_prices(market_data)
         orders = []
 
-        if len(self.prices) >= self.lookback_intervals:
+        if len(self.prices) >= self.look_back_intervals:
             signal_value = self.calculate_z_score()
 
             if signal_value <= self.buy_threshold:
@@ -104,7 +105,7 @@ class MeanRevertingStrategy(Strategy):
             market_data.get_open_price(self.symbol)
 
     def calculate_z_score(self) -> float:
-        self.prices = self.prices[-self.lookback_intervals:]
+        self.prices = self.prices[-self.look_back_intervals:]
         returns = self.prices["close"].pct_change().dropna()
         z_score = ((returns-returns.mean())/returns.std())[-1]
         return z_score

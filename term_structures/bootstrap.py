@@ -24,7 +24,7 @@ class BootstrappedCurve(Curve):
         """ Calculate list of available zero rates """
         for bond in self._instruments.values():
             if bond.maturity_term not in self._curve:
-                raise KeyError("term {} not found in curve".format(bond.maturity_term))
+                raise KeyError("term {} not found".format(bond.maturity_term))
             self._curve[bond.maturity_term] = self.bond_spot_rate(bond)
 
         return [self._curve[t] for t in self.times]

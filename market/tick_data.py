@@ -10,8 +10,3 @@ class TickData:
     open_price: float = 0.0
     total_volume: int = 0
     timestamp: datetime = datetime.utcnow()
-
-
-if __name__ == "__main__":
-    t = TickData("TEST")
-    print(t)

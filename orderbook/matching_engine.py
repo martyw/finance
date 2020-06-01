@@ -9,9 +9,7 @@ fill a replacement order is added to the book. trades are returned
 """
 import logging
 from typing import Dict
-
 from sortedcontainers import SortedList
-
 from market.order_factory import create_order
 from market.side import Side
 from position_keeping.trade import Trade

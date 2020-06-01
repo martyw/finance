@@ -40,28 +40,33 @@ class TestSwap(unittest.TestCase):
         self.env.add_curve("forward", curve)
         self.env.valuation_date = date(2020, 1, 6)
 
+        daycount = self.env.get_constant("fixed_daycount_code")
+        dateshift = self.env.get_constant("fixed_dateshift_convention")
         fixed_leg = FixedSwapLeg(principal_amount=100000000,
                                  start_date=date(2020, 1, 6),
                                  maturity_date=date(2023, 1, 6),
                                  frequency=2,
-                                 daycount_code=self.env.get_constant("fixed_daycount_code"),
-                                 dateshift_code=self.env.get_constant("fixed_dateshift_convention"),
+                                 daycount_code=daycount,
+                                 dateshift_code=dateshift,
                                  discount_curve=self.env.get_curve("discount"),
                                  valuation_date=self.env.valuation_date,
                                  holidays=self.env.get_constant("holidays")
                                  )
-
-
+        daycount = self.env.get_constant("float_daycount_code")
+        dateshift = self.env.get_constant("float_dateshift_convention")
+        discount = self.env.get_curve("discount")
+        forward = self.env.get_curve("forward")
+        holidays = self.env.get_constant("holidays")
         floating_leg = FloatingSwapLeg(principal_amount=100000000,
                                        start_date=date(2020, 1, 6),
                                        maturity_date=date(2023, 1, 6),
                                        frequency=2,
-                                       daycount_code=self.env.get_constant("float_daycount_code"),
-                                       dateshift_code=self.env.get_constant("float_dateshift_convention"),
-                                       discount_curve=self.env.get_curve("discount"),
-                                       forward_curve=self.env.get_curve("forward"),
+                                       daycount_code=daycount,
+                                       dateshift_code=dateshift,
+                                       discount_curve=discount,
+                                       forward_curve=forward,
                                        valuation_date=self.env.valuation_date,
-                                       holidays=self.env.get_constant("holidays")
+                                       holidays=holidays
                                        )
 
         self.swap = Swap(fixed_leg=fixed_leg, floating_leg=floating_leg)
@@ -90,4 +95,3 @@ class TestSwap(unittest.TestCase):
         self.assertEqual(str(self.swap.floating_leg.swaplets[3]), "(2021-07-06/2022-01-06 amount: 100000000/discounted: 2041647.164464834, forward rate: 0.044499999999999956/discount factor:0.917594231220151)")  # noqa
         self.assertEqual(str(self.swap.floating_leg.swaplets[4]), "(2022-01-06/2022-07-06 amount: 100000000/discounted: 2368032.96983757, forward rate: 0.053000000000000075/discount factor:0.8935973471085157)")  # noqa
         self.assertEqual(str(self.swap.floating_leg.swaplets[5]), "(2022-07-06/2023-01-06 amount: 100000000/discounted: 2475194.538338353, forward rate: 0.056999999999999995/discount factor:0.8684893116976679)") # noqa
-

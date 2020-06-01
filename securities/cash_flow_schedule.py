@@ -1,4 +1,6 @@
-"""Cash flow class plus generator. TODO: extend with date shifts for bank holidays/weekends"""
+"""Cash flow class plus generator.
+TODO: extend with date shifts for bank holidays/weekends
+"""
 from datetime import date
 from typing import List
 
@@ -63,6 +65,8 @@ class CashFlow:
                                            self.year_fraction)
 
 
+# pylint: disable=too-many-instance-attributes
+# pylint: disable=too-many-arguments
 class CashFlowSchedule:
     def __init__(self,
                  amount: float,
@@ -85,13 +89,13 @@ class CashFlowSchedule:
         self.holidays = holidays
 
     def generate_cashflows(self):
-        dt = self.maturity_date
+        tmp_date = self.maturity_date
         number_months_in_swaplet = int(12/self.frequency)
-        while dt > self.start_date:
-            prev = dt
-            dt = add_months(dt, -1 * number_months_in_swaplet)
-            dt = self.date_shift.shift(dt, self.holidays)
-            self.cashflows.append(CashFlow(start_date=dt,
+        while tmp_date > self.start_date:
+            prev = tmp_date
+            tmp_date = add_months(tmp_date, -1 * number_months_in_swaplet)
+            tmp_date = self.date_shift.shift(tmp_date, self.holidays)
+            self.cashflows.append(CashFlow(start_date=tmp_date,
                                            end_date=prev,
                                            amount=self.amount,
                                            daycount=self.daycount

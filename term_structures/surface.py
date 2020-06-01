@@ -1,6 +1,8 @@
 from scipy import interpolate
 
 
+# pylint: disable=too-few-public-methods
+# pylint: disable=invalid-name
 class Surface:
     def __init__(self, first_axis: list, second_axis: list, values: list):
         self.first_axis = first_axis

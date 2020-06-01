@@ -1,6 +1,7 @@
 import unittest
 from term_structures.forward_rates import ForwardRates
 
+
 class TestForwardCurve(unittest.TestCase):
     """test forward rate calculation"""
     def setUp(self):

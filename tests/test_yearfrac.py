@@ -29,4 +29,4 @@ class TestDaycounts(unittest.TestCase):
         dc = yf.day_count(yf.DayCntCnvEnum.basis_30_360_isda)
         expected = 1
         self.assertEqual(dc.year_fraction(start_date, end_date), expected)
-        self.assertEqual(str(dc.convetion), "basis_30_360_isda")
+        self.assertEqual(str(dc.convention), "basis_30_360_isda")

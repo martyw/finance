@@ -1,10 +1,13 @@
 """Implements the yearfrac function from Excel
 """
 from calendar import isleap
-from datetime import date, timedelta
+from datetime import date
 from enum import Enum
 
 
+# pylint: disable=too-few-public-methods
+# pylint: disable=no-self-use
+# pylint: disable=invalid-name
 class DayCntCnvEnum(Enum):
     undefined = -1
     basis_30_360_isda = 0
@@ -35,13 +38,13 @@ def day_count(convention):
 
 class DayCountConvention:
     def __init__(self, convention=DayCntCnvEnum.undefined):
-        self.convetion = convention
+        self.convention = convention
 
     def year_fraction(self, from_date: date, to_date: date):
         assert to_date >= from_date
 
     def __repr__(self):
-        return str(self.convetion)
+        return str(self.convention)
 
 
 class DayCountConvention_act_360(DayCountConvention):

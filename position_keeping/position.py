@@ -6,6 +6,7 @@ from position_keeping.long_short import LongShort
 from position_keeping.trade import Trade
 
 
+# pylint: disable=too-many-instance-attributes
 class Position:
     def __init__(self):
         self.symbol = None

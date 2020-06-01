@@ -10,7 +10,8 @@ from term_structures.surface import Surface
 from utils.date.yearfrac import day_count, DayCntCnvEnum
 
 
-
+# pylint: disable=too-many-arguments
+# pylint: disable=invalid-name
 class BlackScholesPricer:
     def __init__(self,
                  spot: float,
@@ -57,7 +58,7 @@ class BlackScholesPricer:
     def calculate_price(call_put_flag: int, spot: float, strike: float,
                         time_to_maturity: float, interest_rate: float,
                         volatility: float) -> float:
-        assert call_put_flag == -1 or call_put_flag == 1
+        assert call_put_flag in (-1, 1)
         sig = volatility
         t = time_to_maturity
         r = interest_rate
@@ -103,7 +104,7 @@ class BlackScholesPricer:
                     interest_rate: float) -> float:
         """solve for volatility with known observed price
         Newton-Raphson to approximate implied volatility"""
-        assert call_put_flag == -1 or call_put_flag == 1
+        assert call_put_flag in(-1, 1)
 
         sigma = 0.5     # initial guess
         i = 0

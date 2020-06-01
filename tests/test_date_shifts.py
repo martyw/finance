@@ -1,6 +1,7 @@
 from datetime import date
 import unittest
-from utils.date.date_shifts import DateShiftNone, Following, MofifiedFollowing, Preceding
+from utils.date.date_shifts import DateShiftNone, Following,\
+    MofifiedFollowing, Preceding
 
 
 class TestThis(unittest.TestCase):

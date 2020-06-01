@@ -12,7 +12,7 @@ class Curve:
     Curve class
     """
     def __init__(self, curve):
-        self._curve = dict(curve) # maturity -> rate map
+        self._curve = dict(curve)  # maturity -> rate map
 
     @property
     def times(self) -> List[float]:
@@ -26,12 +26,12 @@ class Curve:
     def __getitem__(self, item):
         # make sure the internal data structure self._curve is populated
         if not self.rates:
-            dummy = self.rates
+            self.rates()
         return self._curve[item]
 
     @property
     def discount_factors(self):
-        return [Curve.discount_factor(tm, self._curve[tm]) for tm in self.times]
+        return [Curve.discount_factor(t, self._curve[t]) for t in self.times]
 
     @staticmethod
     def discount_factor(time: float, rate: float):
@@ -54,5 +54,5 @@ class Curve:
     def __repr__(self):
         # make sure the internal data structure self._curve is populated
         if not self.rates:
-            dummy = self.rates
+            self.rates()
         return str(self._curve)

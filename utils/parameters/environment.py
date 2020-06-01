@@ -14,11 +14,11 @@ class Environment:
         return self._valuation_date
 
     @valuation_date.setter
-    def valuation_date(self, pd):
-        self._valuation_date = pd
+    def valuation_date(self, val_date):
+        self._valuation_date = val_date
 
-    def relative_date(self, d):
-        ret = (d - self._valuation_date).days
+    def relative_date(self, rel_date):
+        ret = (rel_date - self._valuation_date).days
         assert ret > 0, "date before pricing date"
         return ret
 

@@ -1,4 +1,5 @@
 from enum import IntEnum
+# pylint: disable=no-member
 
 
 class OptionStyle(IntEnum):

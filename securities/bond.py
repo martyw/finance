@@ -5,6 +5,7 @@ from scipy.optimize import newton
 from constants import DELTA_YIELD
 
 
+# pylint: disable=too-many-arguments
 class Bond:
     """Attributes needed to price a bond"""
     def __init__(self,
@@ -32,12 +33,12 @@ class Bond:
         if not keys.issubset(Bond.fields()):
             raise KeyError("{}".format(keys.difference(Bond.fields())))
 
-        for p in ["price", "ytm"]:
-            if p not in keys:
-                arg[p] = None
+        for value in ["price", "ytm"]:
+            if value not in keys:
+                arg[value] = None
             else:
-                if not arg[p]:
-                    arg[p] = None
+                if not arg[value]:
+                    arg[value] = None
 
         if "compounding_frequency" not in keys:
             arg["compounding_frequency"] = 2
@@ -100,15 +101,15 @@ class Bond:
         num_cpns = int(maturity_term * compound_freq)
         cpn_dates = [(i + 1) / compound_freq for i in range(num_cpns)]
 
-        def ytm_func(y):
+        def ytm_func(yld):
             """the equation to solve for ytm"""
             nonlocal cpn_payment, cpn_freq, cpn_dates
             # coupons
             ytm = 0.0
-            for t in cpn_dates:
-                ytm += cpn_payment / (1 + y / cpn_freq) ** (cpn_freq * t)
+            for date in cpn_dates:
+                ytm += cpn_payment / (1 + yld / cpn_freq) ** (cpn_freq * date)
             # redemption
-            ytm += par / (1 + y / cpn_freq) ** (cpn_freq * maturity_term)
+            ytm += par / (1 + yld / cpn_freq) ** (cpn_freq * maturity_term)
             ytm -= price
 
             return ytm
@@ -124,8 +125,8 @@ class Bond:
         num_cpns = int(maturity_term * compound_frequency)
         coupon_dates = [(i + 1) / compound_frequency for i in range(num_cpns)]
         price = 0.0
-        for t in coupon_dates:
-            price += cpn_payment / (1 + ytm / cpn_freq) ** (cpn_freq * t)
+        for date in coupon_dates:
+            price += cpn_payment / (1 + ytm / cpn_freq) ** (cpn_freq * date)
         price += par / (1 + ytm / cpn_freq) ** (cpn_freq * maturity_term)
 
         return price

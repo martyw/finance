@@ -34,68 +34,70 @@ class DateShiftNone:
         self.convetion = convention
         self.one_day = timedelta(days=1)
 
-    def shift(self, dt, holidays=[]):
-        return dt
+    def shift(self, this_date, holidays=list()):
+        return this_date
 
     @staticmethod
-    def is_business_day(dt: date, holidays=[]):
-        if dt.weekday() in (5, 6) or dt in holidays:
-            return False
-        else:
-            return True
+    def is_business_day(this_date: date, holidays=list()):
+        retval = True
+
+        if this_date.weekday() in (5, 6) or this_date in holidays:
+            retval = False
+
+        return retval
 
 
 class Following(DateShiftNone):
     def __init__(self):
         super().__init__(ShiftConvention.FOLLOWING)
 
-    def shift(self, dt: date, holidays=[]):
-        d = super().shift(dt, holidays)
-        while not self.is_business_day(d, holidays):
-            d += self.one_day
+    def shift(self, this_date: date, holidays=list()):
+        this_date = super().shift(this_date, holidays)
+        while not self.is_business_day(this_date, holidays):
+            this_date += self.one_day
 
-        return d
+        return this_date
 
 
 class MofifiedFollowing(DateShiftNone):
     def __init__(self):
         super().__init__(ShiftConvention.MODIFIED_FOLLOWING)
 
-    def shift(self, dt: date, holidays=[]):
-        d = super().shift(dt, holidays)
-        while not self.is_business_day(d, holidays):
-            d += self.one_day
-        if dt.month != d.month:
-            d = dt
-            while not self.is_business_day(d, holidays):
-                d -= self.one_day
+    def shift(self, this_date: date, holidays=list()):
+        tmp_date = super().shift(this_date, holidays)
+        while not self.is_business_day(tmp_date, holidays):
+            tmp_date += self.one_day
+        if this_date.month != tmp_date.month:
+            tmp_date = this_date
+            while not self.is_business_day(tmp_date, holidays):
+                tmp_date -= self.one_day
 
-        return d
+        return tmp_date
 
 
 class Preceding(DateShiftNone):
     def __init__(self):
         super().__init__(ShiftConvention.PRECEDING)
 
-    def shift(self, dt: date, holidays=[]):
-        d = super().shift(dt, holidays)
-        while not self.is_business_day(d, holidays):
-            d -= self.one_day
+    def shift(self, this_date: date, holidays=list()):
+        this_date = super().shift(this_date, holidays)
+        while not self.is_business_day(this_date, holidays):
+            this_date -= self.one_day
 
-        return d
+        return this_date
 
 
 class MofifiedPreceding(DateShiftNone):
     def __init__(self):
         super().__init__(ShiftConvention.PRECEDING)
 
-    def shift(self, dt: date, holidays=[]):
-        d = super().shift(dt, holidays)
-        while not self.is_business_day(d, holidays):
-            d -= self.one_day
-        if dt.month != d.month:
-            d = dt
-            while not self.is_business_day(d, holidays):
-                d += self.one_day
+    def shift(self, this_date: date, holidays=list()):
+        this_date = super().shift(this_date, holidays)
+        while not self.is_business_day(this_date, holidays):
+            this_date -= self.one_day
+        if this_date.month != this_date.month:
+            this_date = this_date
+            while not self.is_business_day(this_date, holidays):
+                this_date += self.one_day
 
-        return d
+        return this_date

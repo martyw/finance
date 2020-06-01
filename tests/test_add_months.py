@@ -2,6 +2,7 @@ from datetime import date
 import unittest
 from utils.date.add_months import add_months
 
+
 class TestAddMonths(unittest.TestCase):
     def test_addmonth(self):
         somedate = date(2019, 11, 9)

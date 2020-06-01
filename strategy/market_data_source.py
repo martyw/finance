@@ -6,6 +6,7 @@ from requests_cache import CachedSession
 from market.market_data import MarketData
 
 
+# pylint: disable=too-few-public-methods
 class MarketDataSource:
     """ Download prices from an external data source """
 
@@ -27,10 +28,11 @@ class MarketDataSource:
                               end=self.end,
                               session=session)
         for time, row in data.iterrows():
-            md = MarketData()
-            md.add_last_price(time, self.ticker, row["Close"], row["Volume"])
-            md.add_open_price(time, self.ticker, row["Open"])
-            yield md
+            market_data = MarketData()
+            market_data.add_last_price(time, self.ticker,
+                                       row["Close"], row["Volume"])
+            market_data.add_open_price(time, self.ticker, row["Open"])
+            yield market_data
 
 
 if __name__ == "__main__":

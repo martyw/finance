@@ -56,3 +56,4 @@ class TestBond(unittest.TestCase):
                                 "coupon": 0.5,
                                 "ytm": 0.003,
                                 "compounding_frequency": 2})
+            print('to avoid flake8 error {}'.format(b.coupon))
