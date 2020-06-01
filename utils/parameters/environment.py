@@ -45,14 +45,3 @@ class Environment:
 
     def get_constant(self, key):
         return self.constants[key]
-
-
-class TestEnvironment(unittest.TestCase):
-    def test_environment(self):
-        env = Environment()
-        with self.assertRaises(KeyError):
-            env.get_curve("Whatever")
-
-
-if __name__ == '__main__':
-    unittest.main()

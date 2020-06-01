@@ -26,3 +26,34 @@ class ApiTest(unittest.TestCase):
             self.assertEqual(returned["compounding_frequency"],
                              sent["compounding_frequency"])
             self.assertEqual(round(returned["price"], 12), 100.497757851439)
+
+    def test_key_error(self):
+        with app.test_client() as client:
+            sent = {"party": 100.0,
+                    "maturity_term": 2.5,
+                    "coupon": 0.5,
+                    "ytm": 0.003,
+                    "compounding_frequency": 2}
+            response = client.post("/bond/price", data=json.dumps(sent),
+                                   content_type="application/json")
+            json_response = json.loads(response.get_data())
+            self.assertEqual(json_response["error"], "KeyError")
+
+    def test_bad_request(self):
+        with app.test_client() as client:
+            response = client.post("/bond/price", data="garbage in",
+                                   content_type="application/json")
+            json_response = json.loads(response.get_data())
+            self.assertEqual(json_response["error"], 400)
+
+    def test_not_found(self):
+        with app.test_client() as client:
+            sent = {"par": 100.0,
+                    "maturity_term": 2.5,
+                    "coupon": 0.5,
+                    "ytm": 0.003,
+                    "compounding_frequency": 2}
+            response = client.post("/garbage_request", data=json.dumps(sent),
+                                   content_type="application/json")
+            json_response = json.loads(response.get_data())
+            self.assertEqual(json_response["error"], 404)

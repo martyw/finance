@@ -1,10 +1,10 @@
 from datetime import date
 import unittest
 from utils.date.date_shifts import DateShiftNone, Following,\
-    MofifiedFollowing, Preceding
+    MofifiedFollowing, Preceding, MofifiedPreceding
 
 
-class TestThis(unittest.TestCase):
+class TestDateShifts(unittest.TestCase):
     def test_is_business_day(self):
         ds = DateShiftNone()
         dt = date(2019, 7, 23)
@@ -41,6 +41,8 @@ class TestThis(unittest.TestCase):
         ds = MofifiedFollowing()
         self.assertEqual(ds.shift(dt), date(2019, 6, 28))
         ds = Preceding()
+        self.assertEqual(ds.shift(dt), date(2019, 6, 28))
+        ds = MofifiedPreceding()
         self.assertEqual(ds.shift(dt), date(2019, 6, 28))
 
     def test_shift_weekday(self):

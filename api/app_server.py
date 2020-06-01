@@ -17,23 +17,21 @@ def calculate_bond():
         return json.dumps(bond.to_json())
     except KeyError as exc:
         return json.dumps({"error": "KeyError", "text": str(exc)})
-    except TypeError as exc:
-        return json.dumps({"error": "TypeError", "text": str(exc)})
 
 
 @app.errorhandler(500)
 def internal_server_error(e):
-    """handle http 500"""
+    """handle http error 500"""
     return jsonify(error=500, text=str(e)), 500
 
 
 @app.errorhandler(400)
 def bad_request(e):
-    """handle http 400"""
+    """handle http error 400"""
     return jsonify(error=400, text=str(e)), 400
 
 
 @app.errorhandler(404)
 def not_found(e):
-    """handle http 404"""
+    """handle http error 404"""
     return jsonify(error=404, text=str(e)), 404
