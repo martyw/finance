@@ -298,6 +298,7 @@ class TestExample(unittest.TestCase):
         logging.debug('**** TestExample:test_utility_functions')
         self.assertEqual(self.order_book.get_best_bid(), 99)
         self.assertEqual(self.order_book.get_worst_bid(), 97)
+        self.assertEqual(str(self.order_book.asks[0]), "5@101.0/AA - 50")
         self.assertEqual(self.order_book.get_best_ask(), 101)
         self.assertEqual(self.order_book.get_worst_ask(), 103)
         self.assertEqual(self.order_book.get_volume_at_price('ask', 103),
